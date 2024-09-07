@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -42,4 +43,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * The attributes that are not mass assignable.
+     * 
+     * @var array
+     */
+    protected $guarded = ['role'];
+
+    /**
+     * Summary of setPasswordAttribute
+     * @param mixed $value
+     * @return void
+     */
+    public function setPasswordAttribute($value){
+        $this->attributes['password'] = Hash::make($value);
+    }
+    /**
+     * Get the tasks assigned to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
 }
