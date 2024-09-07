@@ -18,8 +18,8 @@ return new class extends Migration
             $table->enum('priority', ['low', 'medium', 'high']);
             $table->date('due_date');
             $table->enum('status', ['pending', 'in_progress', 'completed', 'failed'])->default('pending');
-            $table->foreignId('assigned_to')->constrained('users');
-            $table->timestamp('created_on')->nullable();
+            $table->foreignId('assigned_to')->nullable()->constrained('users');
+            $table->timestamp('created_on');
             $table->timestamp('updated_on')->nullable();
             $table->softDeletes();
         });
