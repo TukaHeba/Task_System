@@ -4,11 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Services\ApiResponseService;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
-class Admin
+class Manager
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,8 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
+        if (!Auth::check() || Auth::user()->role !== 'manger') {
             return ApiResponseService::error(null, 'Unauthorized access.', 403);
         }
-        return $next($request);
-    }
+        return $next($request);    }
 }
