@@ -47,7 +47,8 @@ class Task extends Model
         'priority',
         'due_date',
         'status',
-        'assigned_to'
+        'assigned_to',
+        'created_by',
     ];
 
     /**
@@ -97,5 +98,15 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    /**
+     * Get the user who created the task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
