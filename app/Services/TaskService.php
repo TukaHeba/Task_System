@@ -128,7 +128,16 @@ class TaskService
     }
 
     /**
-     * Summary of updateTask
+     * Update a task based on its ID.
+     * 
+     * Admin can update any task
+     * manager can update only tasks created by him
+     * user can update only the status of tasks that assigned to him
+     * 
+     * @param int $taskId
+     * @param array $data
+     * @throws \Exception
+     * @return Task|Task[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function updateTask(int $taskId, array $data)
     {
@@ -170,7 +179,7 @@ class TaskService
 
             return $task;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new \Exception('An unexpected error occurred.');
         }
     }
 

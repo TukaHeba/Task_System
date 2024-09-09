@@ -19,17 +19,18 @@ class UpdateTaskRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     * This method automatically sets or formats specific fields before validation occurs.
+     * Prepares data for validation before updating a task.
      * 
-     * Get the task ID from the route, then retrieve the task
-     * When manager update assigned_to value will be kept
-     * When user trying to update onlt status value can be updated
+     * If admin or manager updating thier tasks set the format of the title
+     * and if the title not provided it will keeps the existing one.
+     * 
+     * User will be able to update status only.
      * 
      * For all roles: 
      * original created_by and created_on values will kept
      * updated_on will take  current timestamp 
-     * @return void
+     * 
+     * @throws HttpResponseException if the task is not found, with a 404 error.
      */
     public function prepareForValidation()
     {
@@ -44,15 +45,9 @@ class UpdateTaskRequest extends FormRequest
                 'created_on' => $task->created_on,
             ]);
 
-            if ($user->role === 'admin') {
+            if (in_array($user->role, ['admin', 'manager'])) {
                 $this->merge([
-                    'title' => $this->title ? ucwords(trim($this->title)) : null,
-                ]);
-            }
-
-            if ($user->role === 'manager') {
-                $this->merge([
-                    'assigned_to' => $task->assigned_to,
+                    'title' => $this->title ? ucwords(trim($this->title)) : $task->title,
                 ]);
             }
 
