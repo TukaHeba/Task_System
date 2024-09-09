@@ -65,8 +65,8 @@ Ensure you have the following installed on your machine:
    composer install
 4. Create Environment File
    ```bash
-   cp .env.example .env
-   Update the .env file with your database configuration (MySQL credentials, database name, etc.).
+   cp .env.example .env   
+Update the .env file with your database configuration (MySQL credentials, database name, etc.).
 5. Generate Application Key
     ```bash
     php artisan key:generate
