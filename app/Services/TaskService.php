@@ -21,23 +21,38 @@ class TaskService
      * @return \Illuminate\Pagination\LengthAwarePaginator 
      * @throws \Exception If the user role is invalid or an error occurs.
      */
-    public function listAllTasks()
+    public function listAllTasks($priority = null, $status = null)
     {
         try {
             $user = Auth::user();
+            $query = Task::with('user');
 
             switch ($user->role) {
                 case 'admin':
-                    return Task::with('user')->paginate();
+                    break;
 
                 case 'manager':
-                    return Task::where('created_by', $user->id)->with('user')->paginate();
+                    $query->where('created_by', $user->id);
+                    break;
 
                 case 'user':
-                    return Task::where('assigned_to', $user->id)->with('user')->paginate();
+                    $query->where('assigned_to', $user->id);
+                    break;
+
                 default:
                     throw new \Exception('Invalid user role');
             }
+
+            // Apply filters if provided
+            if ($priority) {
+                $query->priority($priority);
+            }
+
+            if ($status) {
+                $query->status($status);
+            }
+
+            return $query->paginate();
         } catch (\Exception $e) {
             Log::error('Failed to retrieve tasks: ' . $e->getMessage());
             throw new \Exception('An error occurred on the server.');

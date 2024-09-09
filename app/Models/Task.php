@@ -108,4 +108,28 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    /**
+     * Scope a query to filter tasks by priority.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $priority
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePriority($query, $priority)
+    {
+        return $query->where('priority', $priority);
+    }
+
+    /**
+     * Scope a query to filter tasks by status.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $status
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
 }

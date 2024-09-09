@@ -34,16 +34,20 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $tasks = $this->taskService->listAllTasks();
+            $priority = $request->query('priority');
+            $status = $request->query('status');
+
+            $tasks = $this->taskService->listAllTasks($priority, $status);
+
             return ApiResponseService::paginated($tasks, TaskResource::class, 'Tasks retrieved successfully', 200);
         } catch (\Exception $e) {
             return ApiResponseService::error('An error occurred on the server.', 500);
         }
     }
-
+    
     /**
      * Store a newly created resource in storage.
      * 
