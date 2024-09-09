@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('task_table', function (Blueprint $table) {
-            $table->integer('task_id')->unique()->nullable(false);
+            $table->id('task_id');
             $table->string('title');
             $table->text('description');
             $table->enum('priority', ['low', 'medium', 'high']);
             $table->date('due_date');
             $table->enum('status', ['pending', 'in_progress', 'completed', 'failed'])->default('pending');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamp('created_on');
             $table->timestamp('updated_on')->nullable();
             $table->softDeletes();

@@ -30,7 +30,6 @@ class Task extends Model
      * The data type of the primary key.
      */
     protected $keyType = 'int';
-
     /**
      * The number of models to return per page.
      */
@@ -98,5 +97,15 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    /**
+     * Get the user who created the task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
