@@ -59,7 +59,7 @@ Ensure you have the following installed on your machine:
    git clone https://github.com/TukaHeba/Task_System.git
 2. Navigate to the Project Directory
    ```bash
-   cd Task_System
+   cd Task_Management_System
 3. Install Dependencies
    ```bash
    composer install
