@@ -22,10 +22,10 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'manger',
-            'email' => 'manger@gmail.com',
+            'name' => 'manager',
+            'email' => 'manager@gmail.com',
             'password' => '12345678',
-            'role' => 'manger',
+            'role' => 'manager',
         ]);
 
         User::create([

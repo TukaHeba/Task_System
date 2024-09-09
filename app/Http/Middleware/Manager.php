@@ -17,8 +17,9 @@ class Manager
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 'manger') {
+        if (!Auth::check() || Auth::user()->role !== 'manager') {
             return ApiResponseService::error(null, 'Unauthorized access.', 403);
         }
-        return $next($request);    }
+        return $next($request);
+    }
 }
