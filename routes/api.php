@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\UserController;
 
 /*
@@ -26,3 +27,14 @@ Route::controller(AuthController::class)->group(function () {
 
 // User Routes
 Route::apiResource('users', UserController::class)->middleware(['auth:api', 'admin']);
+
+// Task Routes
+Route::controller(TaskController::class)->group(function () {
+    Route::get('tasks', 'index')->middleware('auth:api');
+    Route::get('tasks/{id}', 'show')->middleware('auth:api');
+    Route::post('tasks', 'store')->middleware('auth:api');
+    Route::put('tasks/{id}', 'update')->middleware('auth:api');
+    Route::delete('tasks/{id}', 'destroy')->middleware('auth:api');
+    
+    Route::post('tasks/{id}/assign', 'assign')->middleware(['admin', 'manager']);
+});
