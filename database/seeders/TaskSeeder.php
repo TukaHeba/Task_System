@@ -21,7 +21,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-08',
             'status' => 'completed',
             'assigned_to' => '1',
-            'created_by' => '1',
             'created_on' => '2024-09-07',
             'updated_on' => '2024-09-07',
         ]);
@@ -33,7 +32,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-09',
             'status' => 'in_progress',
             'assigned_to' => '1',
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => '2024-09-07',
         ]);
@@ -45,7 +43,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-10',
             'status' => 'in_progress',
             'assigned_to' => null,
-            'created_by' => '1',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -57,7 +54,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-11',
             'status' => 'pending',
             'assigned_to' => null,
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -69,7 +65,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-12',
             'status' => 'pending',
             'assigned_to' => '1',
-            'created_by' => '1',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -81,7 +76,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-13',
             'status' => 'pending',
             'assigned_to' => '2',
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -93,7 +87,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-14',
             'status' => 'pending',
             'assigned_to' => '3',
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -105,7 +98,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-14',
             'status' => 'pending',
             'assigned_to' => '3',
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -117,7 +109,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-14',
             'status' => 'pending',
             'assigned_to' => null,
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);
@@ -129,7 +120,6 @@ class TaskSeeder extends Seeder
             'due_date' => '2024-09-14',
             'status' => 'pending',
             'assigned_to' => null,
-            'created_by' => '2',
             'created_on' => '2024-09-07',
             'updated_on' => null,
         ]);

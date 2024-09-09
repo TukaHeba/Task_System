@@ -99,14 +99,4 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }
-
-    /**
-     * Get the user who created the task.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
 }

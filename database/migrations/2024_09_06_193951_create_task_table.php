@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('due_date');
             $table->enum('status', ['pending', 'in_progress', 'completed', 'failed'])->default('pending');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamp('created_on');
             $table->timestamp('updated_on')->nullable();
             $table->softDeletes();

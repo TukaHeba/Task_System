@@ -26,10 +26,6 @@ class TaskResource extends JsonResource
                 'name' => $this->user->name,
                 'role' => $this->user->role,
             ] : null,
-            'created_by' => $this->creator ? [
-                'id' => $this->creator->id,
-                'name' => $this->creator->name,
-            ] : null,
             'created_on' => $this->created_on,
             'updated_on' => $this->updated_on,
             'deleted_at' => $this->deleted_at,
