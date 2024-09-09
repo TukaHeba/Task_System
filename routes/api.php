@@ -35,6 +35,5 @@ Route::controller(TaskController::class)->group(function () {
     Route::post('tasks', 'store')->middleware('auth:api');
     Route::put('tasks/{id}', 'update')->middleware('auth:api');
     Route::delete('tasks/{id}', 'destroy')->middleware('auth:api');
-    
-    Route::post('tasks/{id}/assign', 'assign')->middleware(['admin', 'manager']);
+    Route::post('tasks/{id}/assign', 'assign')->middleware('manager');
 });

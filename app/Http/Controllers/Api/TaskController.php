@@ -9,6 +9,8 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Services\ApiResponseService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use InvalidArgumentException;
 
 class TaskController extends Controller
 {
@@ -47,7 +49,7 @@ class TaskController extends Controller
             return ApiResponseService::error('An error occurred on the server.', 500);
         }
     }
-    
+
     /**
      * Store a newly created resource in storage.
      * 
@@ -110,6 +112,29 @@ class TaskController extends Controller
         try {
             $this->taskService->deleteTask($id);
             return ApiResponseService::success(null, 'Task deleted successfully', 200);
+        } catch (\Exception $e) {
+            return ApiResponseService::error('An error occurred on the server.', 500);
+        }
+    }
+
+    /**
+     * Assign a task to a user by manager
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param int $taskId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function assign(Request $request, int $taskId)
+    {
+        try {
+            $userId = $request->input('assigned_to');
+            $task = $this->taskService->assignTask($taskId, $userId);
+
+            return ApiResponseService::success(new TaskResource($task), 'Task updated successfully', 200);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponseService::error('An error occurred on the server.', 500);
+        } catch (InvalidArgumentException $e) {
+            return ApiResponseService::error('An error occurred on the server.', 500);
         } catch (\Exception $e) {
             return ApiResponseService::error('An error occurred on the server.', 500);
         }

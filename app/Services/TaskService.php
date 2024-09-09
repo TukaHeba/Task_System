@@ -3,10 +3,16 @@
 namespace App\Services;
 
 use App\Models\Task;
+use App\Models\User;
+use InvalidArgumentException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+
 use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AssignTaskRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskService
 {
@@ -193,6 +199,41 @@ class TaskService
 
             default:
                 throw new \Exception('An error occurred on the server.');
+        }
+    }
+
+    /**
+     * Assign a task to a user.
+     *
+     * Ensure the user ID is valid
+     * Update the assigned_to field
+     * Handle cases where the task or user is not found
+     * Handle invalid user id
+     * 
+     * @param int $taskId
+     * @param int $userId
+     * @return Task
+     * @throws ModelNotFoundException
+     * @throws InvalidArgumentException
+     */
+    public function assignTask(int $taskId, int $userId)
+    {
+        try {
+            $task = Task::findOrFail($taskId);
+
+            if (!User::find($userId)) {
+                throw new InvalidArgumentException('User not found.');
+            }
+
+            $task->update(['assigned_to' => $userId]);
+
+            return $task;
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException('Task or user not found.');
+        } catch (InvalidArgumentException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new \Exception('An unexpected error occurred.');
         }
     }
 }
