@@ -129,14 +129,9 @@ class TaskService
 
     /**
      * Summary of updateTask
-     * @param int $taskId
-     * @param array $data
-     * @throws \Exception
-     * @return \App\Models\Task
      */
     public function updateTask(int $taskId, array $data)
     {
-
         try {
             $task = Task::findOrFail($taskId);
             $user = Auth::user();
@@ -147,16 +142,26 @@ class TaskService
                     break;
 
                 case 'manager':
-                    $task->update(array_merge($data, [
-                        'assigned_to' => $task->assigned_to,
-                    ]));
+                    if ($task->created_by === $user->id) {
+                        $task->update($data);
+                    } else {
+                        throw new \Exception('Managers can only update tasks they created.');
+                    }
                     break;
 
                 case 'user':
-                    $task->update([
-                        'status' => $data['status'],
-                        'updated_on' => now(),
-                    ]);
+                    if ($task->assigned_to === $user->id) {
+                        if (isset($data['status'])) {
+                            $task->update([
+                                'status' => $data['status'],
+                                'updated_on' => now(),
+                            ]);
+                        } else {
+                            throw new \Exception('Users can only update the status.');
+                        }
+                    } else {
+                        throw new \Exception('Unauthorized: Users can only update tasks assigned to them.');
+                    }
                     break;
 
                 default:
@@ -165,7 +170,7 @@ class TaskService
 
             return $task;
         } catch (\Exception $e) {
-            throw new \Exception('An error occurred on the server.');
+            throw new \Exception($e->getMessage());
         }
     }
 

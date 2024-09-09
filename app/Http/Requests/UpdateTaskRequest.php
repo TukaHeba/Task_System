@@ -22,7 +22,7 @@ class UpdateTaskRequest extends FormRequest
      * Prepare the data for validation.
      * This method automatically sets or formats specific fields before validation occurs.
      * 
-     * Retrieve the task_id from the route parameters, then get the task details
+     * Get the task ID from the route, then retrieve the task
      * When manager update assigned_to value will be kept
      * When user trying to update onlt status value can be updated
      * 
@@ -37,31 +37,34 @@ class UpdateTaskRequest extends FormRequest
         $taskId = $this->route('id');
         $task = Task::find($taskId);
 
-        $this->merge([
-            'updated_on' => now(),
-            'created_by' => $this->task->created_by,
-            'created_on' => $this->task->created_on,
-        ]);
-
-        if ($user->role === 'admin') {
+        if ($task) {
             $this->merge([
-                'title' => $this->title ? ucwords(trim($this->title)) : null,
-            ]);
-        }
-
-        if ($user->role === 'manager') {
-            $this->merge([
-                'assigned_to' => $this->task->assigned_to,
-            ]);
-        }
-
-        if ($user->role === 'user') {
-            $this->replace([
-                'status' => $this->input('status', $this->task->status),
                 'updated_on' => now(),
-                'created_by' => $this->task->created_by,
-                'created_on' => $this->task->created_on,
+                'created_by' => $task->created_by,
+                'created_on' => $task->created_on,
             ]);
+
+            if ($user->role === 'admin') {
+                $this->merge([
+                    'title' => $this->title ? ucwords(trim($this->title)) : null,
+                ]);
+            }
+
+            if ($user->role === 'manager') {
+                $this->merge([
+                    'assigned_to' => $task->assigned_to,
+                ]);
+            }
+
+            if ($user->role === 'user') {
+                $this->merge([
+                    'status' => $this->input('status', $task->status),
+                ]);
+            }
+        } else {
+            throw new HttpResponseException(
+                ApiResponseService::error('Task not found.', 404)
+            );
         }
     }
 
